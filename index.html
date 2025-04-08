@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rural Crafts Co. | Handmade with Love</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+    <style>
+        /* Neubrutalism Theme */
+        :root {
+            --shadow-color: #000000;
+        }
+        
+        .neu-brutal {
+            background: #ffffff;
+            border: 3px solid var(--shadow-color);
+            box-shadow: 5px 5px 0px var(--shadow-color);
+            transition: all 0.2s ease;
+        }
+
+        .neu-brutal:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px var(--shadow-color);
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: #f0f7ff;
+        }
+
+        .product-card {
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="bg-white p-4 neu-brutal mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">Rural Crafts Co.</a>
+            <div class="flex gap-4">
+                <a href="#products" class="neu-brutal px-4 py-2">Products</a>
+                <a href="#workshops" class="neu-brutal px-4 py-2">Workshops</a>
+                <a href="#location" class="neu-brutal px-4 py-2">Location</a>
+                <button onclick="openCart()" class="neu-brutal px-4 py-2"><i class="bi bi-cart"></i> Cart</button>
+                <button onclick="toggleAuthModal('user')" class="neu-brutal px-4 py-2">Login</button>
+                <button onclick="toggleAuthModal('seller')" class="neu-brutal px-4 py-2">Seller Portal</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="container mx-auto px-4 mb-16">
+        <div class="neu-brutal p-8 bg-yellow-100">
+            <h1 class="text-5xl font-bold mb-4">Handcrafted with Love</h1>
+            <p class="text-xl mb-8">Supporting rural artisans and their incredible craftsmanship</p>
+            <a href="#products" class="neu-brutal px-8 py-4 bg-green-300 inline-block">Shop Now</a>
+        </div>
+    </div>
+
+    <!-- Products Section -->
+    <section id="products" class="container mx-auto px-4 mb-16">
+        <h2 class="text-3xl font-bold mb-8">Our Products</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="productsGrid">
+            <!-- Products will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Workshops Section -->
+    <section id="workshops" class="container mx-auto px-4 mb-16">
+        <div class="neu-brutal p-8 bg-pink-100">
+            <h2 class="text-3xl font-bold mb-4">Upcoming Workshops</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="neu-brutal p-4 bg-white">
+                    <h3 class="text-xl font-bold">Pottery Making</h3>
+                    <p>Learn the art of traditional pottery making</p>
+                    <p class="mt-2">Date: Every Saturday</p>
+                    <button class="neu-brutal px-4 py-2 mt-4 bg-blue-200">Register Now</button>
+                </div>
+                <div class="neu-brutal p-4 bg-white">
+                    <h3 class="text-xl font-bold">Wood Crafting</h3>
+                    <p>Create your own wooden masterpiece</p>
+                    <p class="mt-2">Date: Every Sunday</p>
+                    <button class="neu-brutal px-4 py-2 mt-4 bg-blue-200">Register Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="container mx-auto px-4 mb-16">
+        <div class="neu-brutal p-8">
+            <h2 class="text-3xl font-bold mb-4">Visit Our Store</h2>
+            <div class="aspect-w-16 aspect-h-9">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3506.2233913121413!2d77.4051!3d28.5021!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjjCsDMwJzA3LjYiTiA3N8KwMjQnMTguNCJF!5e0!3m2!1sen!2sin!4v1635835567182!5m2!1sen!2sin" 
+                    width="100%" 
+                    height="450" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy"
+                    class="neu-brutal">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth Modals -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="neu-brutal bg-white p-8 max-w-md w-full">
+            <h2 id="authTitle" class="text-2xl font-bold mb-4">Login</h2>
+            <form id="authForm" onsubmit="handleAuth(event)">
+                <input type="email" placeholder="Email" class="neu-brutal w-full mb-4 p-2" required>
+                <input type="password" placeholder="Password" class="neu-brutal w-full mb-4 p-2" required>
+                <div class="flex justify-between">
+                    <button type="submit" class="neu-brutal px-4 py-2 bg-green-200">Submit</button>
+                    <button type="button" onclick="closeAuthModal()" class="neu-brutal px-4 py-2 bg-red-200">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
+        <div class="neu-brutal bg-white p-8 max-w-md w-full">
+            <h2 class="text-2xl font-bold mb-4">Your Cart</h2>
+            <div id="cartItems" class="mb-4">
+                <!-- Cart items will be dynamically loaded here -->
+            </div>
+            <div class="flex justify-between items-center mb-4">
+                <span class="font-bold">Total:</span>
+                <span id="cartTotal" class="font-bold">₹0</span>
+            </div>
+            <button onclick="checkout()" class="neu-brutal w-full py-2 bg-green-200 mb-2">Checkout</button>
+            <button onclick="closeCart()" class="neu-brutal w-full py-2 bg-red-200">Close</button>
+        </div>
+    </div>
+
+    <script>
+        // Sample products data
+        const products = [
+            { id: 1, name: 'Clay Vase', price: 499, category: 'Mud Sculptures', image: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&q=80&w=300&h=300' },
+            { id: 2, name: 'Wooden Dining Table', price: 12999, category: 'Wooden Table', image: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&q=80&w=300&h=300' },
+            { id: 3, name: 'Handcrafted Chair', price: 4999, category: 'Wooden Chair', image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&q=80&w=300&h=300' },
+            { id: 4, name: 'Ceramic Flower Pot', price: 799, category: 'Flower Pots', image: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?auto=format&fit=crop&q=80&w=300&h=300' },
+            { id: 5, name: 'Traditional Bangles Set', price: 299, category: 'Bangles', image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=300&h=300' },
+        ];
+
+        let cart = [];
+
+        // Initialize EmailJS
+        emailjs.init("YOUR_USER_ID"); // Replace with your EmailJS user ID
+
+        // Render products
+        function renderProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = products.map(product => `
+                <div class="neu-brutal p-4 product-card">
+                    <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover mb-4 neu-brutal">
+                    <h3 class="text-xl font-bold">${product.name}</h3>
+                    <p class="text-gray-600">${product.category}</p>
+                    <p class="font-bold mt-2">₹${product.price}</p>
+                    <button onclick="addToCart(${product.id})" class="neu-brutal px-4 py-2 mt-4 bg-blue-200 w-full">
+                        Add to Cart
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Cart functions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            cartItems.innerHTML = cart.map(item => `
+                <div class="flex justify-between items-center mb-2">
+                    <span>${item.name}</span>
+                    <span>₹${item.price}</span>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            cartTotal.textContent = `₹${total}`;
+        }
+
+        function openCart() {
+            document.getElementById('cartModal').classList.remove('hidden');
+        }
+
+        function closeCart() {
+            document.getElementById('cartModal').classList.add('hidden');
+        }
+
+        // Auth functions
+        function toggleAuthModal(type) {
+            const modal = document.getElementById('authModal');
+            const title = document.getElementById('authTitle');
+            title.textContent = type === 'user' ? 'User Login' : 'Seller Login';
+            modal.classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function handleAuth(event) {
+            event.preventDefault();
+            // Handle authentication logic here
+            closeAuthModal();
+        }
+
+        // Checkout function
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            // Send confirmation emails
+            sendOrderConfirmation();
+            
+            alert('Order placed successfully! You will receive a confirmation email shortly.');
+            cart = [];
+            updateCart();
+            closeCart();
+        }
+
+        // Email functions
+        function sendOrderConfirmation() {
+            // Send email to customer
+            emailjs.send("default_service", "template_customer", {
+                to_email: "customer@example.com",
+                order_details: JSON.stringify(cart)
+            });
+
+            // Send email to seller
+            emailjs.send("default_service", "template_seller", {
+                to_email: "seller@example.com",
+                order_details: JSON.stringify(cart)
+            });
+        }
+
+        // Initialize
+        renderProducts();
+    </script>
+<script>document.body.addEventListener('wheel', e => { if (!e.ctrlKey) return; e.preventDefault(); return }, { passive: false })</script>
+	</body>
+</html>
